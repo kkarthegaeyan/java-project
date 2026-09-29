@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#173c2c">
+  <title>Sign in · FarmStock</title>
+  <link rel="stylesheet" href="login.css">
+  <script src="js/login.js" defer></script>
+</head>
+<body>
+  <main class="login-layout">
+    <section class="photo-panel" aria-label="FarmStock introduction">
+      <img class="photo-panel-image" src="https://images.unsplash.com/photo-1745203674762-fdfb6407c733?auto=format&amp;fit=crop&amp;fm=jpg&amp;q=82&amp;w=1800" alt="Warm sunrise over a green farm field" fetchpriority="high">
+      <div class="photo-overlay"></div>
+      <a class="brand brand-on-photo" href="/login.html"><span class="brand-mark">F</span><span>farmstock<small>FARM MANAGEMENT</small></span></a>
+      <div class="field-gallery" aria-label="Scenes from the farm">
+        <figure class="gallery-main"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&amp;fit=crop&amp;w=560&amp;q=82" alt="Rows of crops stretching across a green field" loading="eager"><figcaption>GROW WITH CONFIDENCE</figcaption></figure>
+        <figure class="gallery-small"><img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&amp;fit=crop&amp;w=420&amp;q=82" alt="Golden farmland beneath a wide sky" loading="eager"></figure>
+      </div>
+      <div class="photo-copy"><span class="photo-kicker">FARM INVENTORY</span><h1>A better view of<br>your farm records.</h1><p>Crops, harvests, stock and sales, organized in one place.</p><div class="photo-quote"><span class="feature-mark">01</span><div>Crop catalogue <span>·</span> Harvest log <span>·</span> Sales history</div></div></div>
+      <div class="photo-credit">Photo by <a href="https://unsplash.com/photos/sunrise-over-a-green-field-and-tree-line-WEIqEl7exFc" target="_blank" rel="noreferrer">Sourav Debnath</a> on Unsplash</div>
+    </section>
+    <section class="form-panel" aria-labelledby="loginTitle">
+      <div class="form-panel-inner">
+        <div class="mobile-brand"><span class="brand-mark">F</span><span>farmstock<small>FARM MANAGEMENT</small></span></div>
+        <span class="form-kicker">FARMSTOCK ACCOUNT</span>
+        <h2 id="loginTitle">Sign in</h2>
+        <p class="form-intro">Use the farm account set up for this inventory.</p>
+        <div class="login-notice" id="loginNotice" role="status" aria-live="polite"></div>
+        <form id="loginForm" action="/login" method="post">
+          <label for="username">Farm account</label>
+          <div class="input-wrap"><span class="input-icon" aria-hidden="true">♙</span><input id="username" name="username" type="text" autocomplete="username" placeholder="Enter your account name" required autofocus></div>
+          <label for="password">Password</label>
+          <div class="input-wrap"><span class="input-icon" aria-hidden="true">⌑</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button class="show-password" id="showPassword" type="button" aria-label="Show password">Show</button></div>
+          <button class="sign-in-button" id="signInButton" type="submit"><span>Sign in</span><span aria-hidden="true">→</span></button>
+        </form>
+        <p class="shared-note"><span class="secure-dot"></span>One shared account for this farm inventory</p>
+        <p class="help-note">If you need the password, contact the person who configured FarmStock.</p>
+      </div>
+      <footer class="login-footer">FARMSTOCK <span>·</span> EVERY HARVEST COUNTS</footer>
+    </section>
+  </main>
+</body>
+</html>
