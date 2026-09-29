@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#18392b">
+  <title>FarmStock — Farm inventory</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-overview" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="4" rx="1.5"/><rect x="13.5" y="10.5" width="7" height="10" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="icon-crops" viewBox="0 0 24 24"><path d="M12 20v-8m0 4c-4.2 0-6.5-2.2-6.5-6.5C9.8 9.5 12 11.8 12 16Zm0-3c0-4.2 2.2-6.5 6.5-6.5 0 4.3-2.3 6.5-6.5 6.5Z"/></symbol>
+    <symbol id="icon-harvest" viewBox="0 0 24 24"><path d="M4 19h16M6 19l1.3-7h9.4l1.3 7M9 12V7h6v5M12 7V4m-4 5h8"/><path d="M3 4h3M18 4h3"/></symbol>
+    <symbol id="icon-sales" viewBox="0 0 24 24"><path d="M5 17 17 5M7 5h10v10"/><path d="M5 9v10h10"/></symbol>
+    <symbol id="icon-stock" viewBox="0 0 24 24"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Z"/><path d="m4.5 7.7 7.5 4.2 7.5-4.2M12 12v8.5"/></symbol>
+    <symbol id="icon-revenue" viewBox="0 0 24 24"><path d="M4 19.5h16M6 16V9m6 7V4m6 12v-5"/><path d="m5 7 6-3 6 5 3-2"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="icon-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 18 6.4L20 9M4 15l2 2.6A7 7 0 0 0 18.4 15"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-add" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></symbol>
+  </svg>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#dashboard" aria-label="FarmStock overview"><span class="brand-mark">F</span><span>farmstock<small>FARM INVENTORY</small></span></a>
+    <p class="nav-label">WORKSPACE</p>
+    <nav class="navigation" aria-label="Main navigation">
+      <button class="nav-link active" data-section="dashboard"><svg><use href="#icon-overview"/></svg>Overview</button>
+      <button class="nav-link" data-section="crops"><svg><use href="#icon-crops"/></svg>Crops</button>
+      <button class="nav-link" data-section="harvests"><svg><use href="#icon-harvest"/></svg>Harvests</button>
+      <button class="nav-link" data-section="sales"><svg><use href="#icon-sales"/></svg>Sales</button>
+      <button class="nav-link" data-section="stock"><svg><use href="#icon-stock"/></svg>Stock</button>
+      <button class="nav-link" data-section="revenue"><svg><use href="#icon-revenue"/></svg>Revenue</button>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-foot"><span class="online-dot"></span>Farm inventory workspace</div>
+    <div class="sidebar-account"><span class="account-avatar"><svg><use href="#icon-user"/></svg></span><span class="account-name" id="farmUserName">Farm account</span><form action="/logout" method="post" id="logoutForm"><input type="hidden" name="_csrf" id="logoutCsrf"><button type="submit">Sign out <span aria-hidden="true">↗</span></button></form></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-left"><button class="menu-toggle" id="menuToggle" aria-label="Open navigation">☰</button><div><p class="eyebrow" id="pageEyebrow">FARM OPERATIONS</p><h1 id="pageTitle">Farm overview</h1></div></div>
+      <div class="topbar-right"><time class="topbar-date" id="todayLabel"></time><span class="topbar-divider"></span><span class="account-context"><i></i><span id="topFarmUsername">Farm account</span></span></div>
+    </header>
+    <div id="toastRegion" class="toast-region" aria-live="polite"></div>
+
+    <section id="dashboard" class="section active">
+      <div class="welcome-banner"><div class="banner-copy"><p class="banner-kicker">FARM OVERVIEW</p><h2>Every crop. Every batch. Every sale.</h2><p>A clear view of what’s growing, moving and left to sell.</p><button class="banner-button" data-go="harvests">Record a harvest <svg><use href="#icon-arrow"/></svg></button></div><div class="banner-image-credit">Fields at first light <span>·</span> Photo by Sourav Debnath</div></div>
+      <div class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2>Inventory summary</h2></div><div class="summary-tools"><span class="updated-label" id="lastUpdated">Updated from your records</span><button class="button button-light" id="refreshDashboard" aria-label="Refresh dashboard"><svg><use href="#icon-refresh"/></svg><span>Refresh</span></button></div></div>
+      <div class="metric-grid">
+        <article class="metric-card"><div class="metric-top"><span>Crop varieties</span><span class="metric-icon mint"><svg><use href="#icon-crops"/></svg></span></div><strong id="totalCrops">—</strong><small>In your catalogue</small></article>
+        <article class="metric-card"><div class="metric-top"><span>Harvested</span><span class="metric-icon gold"><svg><use href="#icon-harvest"/></svg></span></div><strong id="totalHarvest">—</strong><small>Total quantity recorded</small></article>
+        <article class="metric-card"><div class="metric-top"><span>Sold</span><span class="metric-icon blue"><svg><use href="#icon-sales"/></svg></span></div><strong id="totalSold">—</strong><small>Total quantity sold</small></article>
+        <article class="metric-card"><div class="metric-top"><span>Available stock</span><span class="metric-icon mint"><svg><use href="#icon-stock"/></svg></span></div><strong id="totalStock">—</strong><small>Harvested less sold</small></article>
+        <article class="metric-card revenue-metric"><div class="metric-top"><span>Sales revenue</span><span class="metric-icon gold currency-icon">₹</span></div><strong id="totalRevenue">—</strong><small>Across recorded sales</small></article>
+      </div>
+      <div class="dashboard-lower">
+        <article class="panel chart-panel"><div class="panel-heading"><div><p class="eyebrow">INVENTORY</p><h3>Available by crop</h3></div><button class="subtle-link" data-go="stock">View stock <svg><use href="#icon-arrow"/></svg></button></div><div id="stockChart" class="bar-chart"><div class="loading-state">Loading inventory…</div></div></article>
+        <article class="panel activity-panel"><div class="panel-heading"><div><p class="eyebrow">LATEST ENTRIES</p><h3>Recent activity</h3></div><button class="subtle-link" data-go="sales">All records <svg><use href="#icon-arrow"/></svg></button></div><div id="recentActivity" class="activity-list"><div class="loading-state">Loading recent entries…</div></div></article>
+      </div>
+      <div class="action-row"><span class="action-row-label">Create a record</span><button class="action-link" data-go="crops"><span class="action-plus"><svg><use href="#icon-add"/></svg></span>Add a crop <svg class="action-arrow"><use href="#icon-arrow"/></svg></button><button class="action-link" data-go="harvests"><span class="action-plus"><svg><use href="#icon-harvest"/></svg></span>Record a harvest <svg class="action-arrow"><use href="#icon-arrow"/></svg></button><button class="action-link" data-go="sales"><span class="action-plus"><svg><use href="#icon-sales"/></svg></span>Record a sale <svg class="action-arrow"><use href="#icon-arrow"/></svg></button></div>
+    </section>
+
+    <section id="crops" class="section">
+      <div class="section-heading page-heading"><div><p class="eyebrow">PRODUCE</p><h2>Crop catalogue</h2><p class="section-subtitle">The crops tracked in this farm account.</p></div></div>
+      <div class="panel form-panel"><div class="panel-heading"><div><h3 id="cropFormTitle">Add a crop</h3><p>Name the crop and choose its category.</p></div></div><form id="cropForm" class="form-grid"><label>Crop name<input id="cropName" name="name" maxlength="100" placeholder="e.g. Tomato Premium" required></label><label>Category<input id="cropCategory" name="category" maxlength="60" placeholder="e.g. Vegetable" required></label><div class="form-actions"><button class="button button-primary" id="cropSubmit" type="submit"><svg><use href="#icon-add"/></svg>Add crop</button><button class="button button-light hidden" id="cropCancel" type="button">Cancel</button></div></form></div>
+      <div class="panel table-panel"><div class="panel-heading table-heading"><div><h3>All crops <span class="count-pill" id="cropCount">0</span></h3><p>Search, edit or remove a crop.</p></div><div class="crop-tools"><label class="filter-box"><span>Category</span><select id="cropCategoryFilter" aria-label="Filter crops by category"><option value="">All categories</option></select></label><label class="search-box"><svg><use href="#icon-search"/></svg><input id="cropSearch" placeholder="Search crops" aria-label="Search crops"></label></div></div><div class="table-wrap"><table><thead><tr><th>Crop</th><th>Category</th><th>Crop ID</th><th class="align-right">Actions</th></tr></thead><tbody id="cropTableBody"></tbody></table></div></div>
+    </section>
+
+    <section id="harvests" class="section">
+      <div class="section-heading page-heading"><div><p class="eyebrow">FIELD RECORDS</p><h2>Harvests</h2><p class="section-subtitle">Record each batch as it comes in from the field.</p></div></div>
+      <div class="panel form-panel"><div class="panel-heading"><div><h3>New harvest entry</h3><p>The recorded quantity is added to crop stock.</p></div></div><form id="harvestForm" class="form-grid form-grid-3"><label>Crop<select id="harvestCropId" required></select></label><label>Quantity (kg)<input id="harvestQuantity" type="number" min="0.01" step="0.01" placeholder="e.g. 100" required></label><label>Harvest date<input id="harvestDate" type="date" required></label><div class="form-actions"><button class="button button-primary" type="submit"><svg><use href="#icon-harvest"/></svg>Save harvest</button></div></form></div>
+      <div class="panel table-panel"><div class="panel-heading"><div><h3>Harvest history</h3><p>All recorded batches, newest first.</p></div></div><div class="table-wrap"><table><thead><tr><th>Harvest ID</th><th>Crop</th><th>Quantity</th><th>Harvest date</th></tr></thead><tbody id="harvestTableBody"></tbody></table></div></div>
+    </section>
+
+    <section id="sales" class="section">
+      <div class="section-heading page-heading"><div><p class="eyebrow">MARKET RECORDS</p><h2>Sales</h2><p class="section-subtitle">Record produce sold and keep stock balances accurate.</p></div></div>
+      <div class="panel form-panel"><div class="panel-heading"><div><h3>New sale entry</h3><p>Available stock is checked before the sale is saved.</p></div></div><form id="saleForm" class="form-grid form-grid-4"><label>Crop<select id="saleCropId" required></select></label><label>Quantity (kg)<input id="saleQuantity" type="number" min="0.01" step="0.01" placeholder="e.g. 50" required></label><label>Price per unit (₹)<input id="salePrice" type="number" min="0.01" step="0.01" placeholder="e.g. 40" required></label><label>Sale date<input id="saleDate" type="date" required></label><div class="stock-hint" id="saleStockHint">Choose a crop to see available stock.</div><div class="form-actions"><button class="button button-primary" type="submit"><svg><use href="#icon-sales"/></svg>Save sale</button></div></form></div>
+      <div class="panel table-panel"><div class="panel-heading"><div><h3>Sales history</h3><p>Sale values use quantity multiplied by unit price.</p></div></div><div class="table-wrap"><table><thead><tr><th>Sale ID</th><th>Crop</th><th>Quantity</th><th>Price / unit</th><th>Total amount</th><th>Sale date</th></tr></thead><tbody id="saleTableBody"></tbody></table></div></div>
+    </section>
+
+    <section id="stock" class="section">
+      <div class="section-heading page-heading"><div><p class="eyebrow">INVENTORY</p><h2>Stock overview</h2><p class="section-subtitle">Harvested quantity, sales and what remains available.</p></div></div>
+      <div class="panel form-panel"><div class="panel-heading"><div><h3>Select a crop</h3><p>Stock figures are read directly from the inventory service.</p></div></div><div class="inline-controls"><label class="control-label">Crop<select id="stockCropId"></select></label><button class="button button-primary" id="checkStock" type="button">View stock<svg><use href="#icon-arrow"/></svg></button></div></div>
+      <div id="stockResult" class="result-area"><div class="empty-card"><span class="empty-icon"><svg><use href="#icon-stock"/></svg></span><h3>Select a crop</h3><p>Stock totals will appear here.</p></div></div>
+    </section>
+
+    <section id="revenue" class="section">
+      <div class="section-heading page-heading"><div><p class="eyebrow">FINANCIAL RECORDS</p><h2>Revenue report</h2><p class="section-subtitle">Review sales revenue over a selected period.</p></div></div>
+      <div class="panel form-panel"><div class="panel-heading"><div><h3>Report period</h3><p>Choose a crop and date range to calculate its revenue.</p></div></div><form id="revenueForm" class="form-grid form-grid-3"><label>Crop<select id="revenueCropId" required></select></label><label>Start date<input id="startDate" type="date" required></label><label>End date<input id="endDate" type="date" required></label><div class="form-actions"><button class="button button-primary" type="submit"><svg><use href="#icon-revenue"/></svg>Generate report</button></div></form></div>
+      <div id="revenueResult" class="result-area"><div class="empty-card"><span class="empty-icon"><svg><use href="#icon-revenue"/></svg></span><h3>No report yet</h3><p>Select a crop and date range to view its revenue.</p></div></div>
+    </section>
+    <footer class="app-footer"><span>FarmStock</span><span>Farm inventory · <span id="footerYear"></span></span></footer>
+  </main>
+  <script src="js/app.js"></script>
+</body>
+</html>
